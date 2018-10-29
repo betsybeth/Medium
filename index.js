@@ -9,6 +9,7 @@ consign()
 .then('lib/middlewares.js')
 .then('routes/users.js')
 .then('routes/blogs.js')
+.then('routes/comments.js')
 .then('lib/boot.js')
 .into(app);
 
