@@ -4,7 +4,9 @@
       "password": 'beth',
       "database": "medium",
       "host": "127.0.0.1",
-      "dialect": "postgres"
+      "dialect": "postgres",
+      "jwtSecret": "mediumApi",
+      "jwtSession": {session: false}
     },
     "test": {
       "username": "bethwambu",

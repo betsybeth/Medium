@@ -20,7 +20,7 @@ module.exports = (sequelize) => {
     },
     userId: {
       type: Sequelize.INTEGER,
-      reference: {
+      references: {
         model: 'users',
         key: 'id'
       },
@@ -40,11 +40,8 @@ module.exports = (sequelize) => {
   }, {});
   blogs.associate = function(models) {
     //association can be defined here
-    blogs.belongsTo(models.users, {
-      foreignKey: 'userId'
-    });
     blogs.hasMany(models.comments,{
-      foreignKey : 'blogId',
+      foreignKey : 'comment_id',
       onDelete: 'CASCADE'
     })
   };

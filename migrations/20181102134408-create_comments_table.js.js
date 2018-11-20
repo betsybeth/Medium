@@ -28,7 +28,7 @@ module.exports = {
       },
       blogId: {
         type:Sequelize.STRING,
-        reference: {
+        references: {
            model: 'blogs',
            key: 'id'
         },

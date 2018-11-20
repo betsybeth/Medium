@@ -1,27 +1,29 @@
 const db = require('../models/index')
 const pushid = require('pushid')
-var { check, validationResult } = require('express-validator/check')
+const { check, validationResult } = require('express-validator/check')
+
 
 module.exports = (app) => {
-    app.post('/register', 
-         [  
-          check('email').isEmail(),
-          check('password').isLength({ min: 5})
-         ], 
-       (req, res) => {
-           const errors = validationResult(req)
-           if(!errors.isEmpty()){
-               return res.status(422).json({errors: errors.array() })
-           }
-        id = pushid()
-        const users = {
-            id: id,
+    app.route('/user/register')
+    .post((req, res) => {
+        [  
+            check('email').isEmail(),
+            check('password').isLength({ min: 5})
+        ]
+        const errors = validationResult(req)
+        if(!errors.isEmpty()){
+            return res.status(422).json({errors: errors.array() })
+        }
+
+        const user = {
+            id: pushid(),
             username: req.body.username,
             email: req.body.email,
             password: req.body.password
         }
-       db.user.create(users)
+       db.users.create(user)
         .then(user => { 
+            console.log("dksn", user)
             res.json(user)
         })
         .catch((err) => {
@@ -30,7 +32,7 @@ module.exports = (app) => {
     })
 
     app.get('/users/:id', (req, res) => {
-        db.user.findById(req.params.id, {
+        db.users.findById(req.params.id, {
             atrributes:['id', 'username', 'email']
         })
         .then(result => res.json(result))
@@ -40,7 +42,7 @@ module.exports = (app) => {
     })
 
     app.delete('/users/:id', (req, res) => {
-      db.user.destroy({where: {id: req.params.id}})
+      db.users.destroy({where: {id: req.params.id}})
       .then(() => {
           res.sendStatus(204).json({msg: 'user has been permanently deleted from the database'})
         })

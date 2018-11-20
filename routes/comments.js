@@ -2,16 +2,15 @@ const db = require('../models/index')
 const pushid = require('pushid')
 
 module.exports = (app) =>  {
-    app.route('/comments')
-    .all((req, res, next) => {
-     delete req.body.id
-     next();
-    })
+    app.route('blog/:id/comments')
+    .all(app.auth.authenticate())
     .post((req, res) => {
+        console.log("heey", payload)
         const comment = {
             id: pushid(),
             comment:req.body.comment,
-            writtenBy: req.body.writtenBy
+            writtenBy: req.body.writtenBy,
+            blog: blogId
         }
         db.comments.create(comment)
         .then((comment)=> {

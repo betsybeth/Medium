@@ -40,7 +40,7 @@ sequelize.authenticate().then(() => {
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-db.user = require('./user')(sequelize, Sequelize)
+db.users = require('./user')(sequelize, Sequelize)
 db.blogs = require('./blogs')(sequelize, Sequelize)
 db.comments = require('./comments')(sequelize, Sequelize)
 

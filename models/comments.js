@@ -28,7 +28,7 @@ module.exports = (sequelize) => {
     },
     blogId: {
         type:Sequelize.INTEGER,
-        reference: {
+        references: {
            model: 'blogs',
            key: 'id'
         },
@@ -36,11 +36,5 @@ module.exports = (sequelize) => {
         onDelete: 'cascade'
     }
   }, {});
-  comments.associate = function(models) {
-     comments.belongsTo((models.blogs), {
-       foreignKey: 'blogId'
-     })
-    // associations can be defined here
-  };
   return comments;
 };

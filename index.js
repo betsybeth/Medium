@@ -6,10 +6,9 @@ const app = express()
 consign()
 .include('config')
 .then('models/index.js')
+.then('auth.js')
 .then('lib/middlewares.js')
-.then('routes/users.js')
-.then('routes/blogs.js')
-.then('routes/comments.js')
+.then('routes')
 .then('lib/boot.js')
 .into(app);
 

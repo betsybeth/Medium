@@ -3,10 +3,7 @@ const pushid = require('pushid')
 
 module.exports = (app) => {
     app.route('/blogs')
-    .all((req, res, next) => {       
-        delete req.body.id
-        next();
-    })
+    .all(app.auth.authenticate())
     .post((req, res) => {
       const blog = {
           id : pushid(),
@@ -15,6 +12,8 @@ module.exports = (app) => {
         }
         db.blogs.create(blog)
         .then(blog => {
+            delete blog.dataValues.id
+            delete blog.dataValues.userId
             res.json(blog)
         })
         .catch((error) => {
@@ -36,10 +35,7 @@ module.exports = (app) => {
     })
 
     app.route('/blogs/:id')
-    .all(( req, res, next) => {
-        delete req.body.id;
-        next();
-    })
+    .all(app.auth.authenticate())
     //  Getting one blog using the id
     .get((req, res) => {
         db.blogs.findOne({
@@ -51,18 +47,21 @@ module.exports = (app) => {
                 res.sendStatus(404)
             }
         }).catch(error => {
-            res.status(412).j
-        sessionStorage({msg: error.message})
+            res.status(412)
+            sessionStorage({msg: error.message})
 
        })
     })
+    .all(app.auth.authenticate())
     .put((req, res) => {
         const blogUpdated = {
             title : req.body.title,
             description :  req.body.description
           } 
       db.blogs.update(blogUpdated, {where:req.params})
-      .then(result => res.sendStatus(204))
+      .then(result => {
+          res.json(blog)
+      })
       .catch(error => {
           res.status(412).json({
               msg: error.message

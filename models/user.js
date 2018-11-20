@@ -1,5 +1,7 @@
 
 const Sequelize = require('sequelize')
+const bcrypt = require('bcrypt')
+
 'use strict';
 module.exports = (sequelize) => {
   const users = sequelize.define('users', {
@@ -34,15 +36,24 @@ module.exports = (sequelize) => {
       field:'updated_at',
       type: Sequelize.DATE
     }
-  }, {});
+  }, {
+    hooks: {
+      beforeCreate: user => {
+        const salt = bcrypt.genSaltSync()
+        console.log("jjjkjkj", salt)
+        user.password = bcrypt.hashSync(user.password, salt)
+      }
+    }
+  });
   users.associate = function(models) {
      users.hasMany(models.blogs, {
-       foreignKey : 'user_id',
+       foreignKey : 'userId',
        onDelete:  'CASCADE'
-     })
-
-    
-    // associations can be defined here
+     })     // associations can be defined here
   };
+  users.isPassword = (encodedPassword, password) => {
+    return bcrypt.compareSync(password, encodedPassword)
+  }
+
   return users;
 };
