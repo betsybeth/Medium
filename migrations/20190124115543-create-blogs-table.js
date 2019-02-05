@@ -1,9 +1,6 @@
-const Sequelize = require("sequelize")
-
-module.exports = sequelize => {
-  const blogs = sequelize.define(
-    "blogs",
-    {
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    queryInterface.createTable("blogs", {
       id: {
         primaryKey: true,
         type: Sequelize.STRING,
@@ -48,15 +45,10 @@ module.exports = sequelize => {
         field: "updated_at",
         type: Sequelize.DATE,
       },
-    },
-    {},
-  )
-  blogs.associate = function(models) {
-    // association can be defined here
-    blogs.hasMany(models.comments, {
-      foreignKey: "comment_id",
-      onDelete: "CASCADE",
     })
-  }
-  return blogs
+  },
+
+  down: queryInterface => {
+    queryInterface.dropTable("blogs")
+  },
 }

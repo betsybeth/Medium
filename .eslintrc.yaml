@@ -1,0 +1,62 @@
+{
+    "root": true,
+    "extends": [
+      "airbnb-base",
+      "plugin:flowtype/recommended",
+      "prettier"
+    ],
+    "env": {
+      "jest": true
+    },
+    "plugins": [
+      "prettier",
+      "flowtype"
+    ],
+    "globals": {
+      "db": true,
+      "tableNames": true
+    },
+    "rules": {
+      "prettier/prettier": [
+        "error",
+          { 
+            "trailingComma": "all",
+            "bracketSpacing": true,
+            "semi": false,
+            "parser": "flow"
+        }
+      ],
+      "semi": 0,
+     "import/no-dynamic-require": 0,
+      "no-param-reassign": 0,
+      "no-unused-vars": 0,
+      "import/no-extraneous-dependencies": 0,
+      "import/extensions": [ "off", "never" ],
+      "prefer-destructuring": ["error",
+          {
+            "VariableDeclarator": {
+              "array": false,
+              "object": true
+            },
+            "AssignmentExpression": {
+              "array": true,
+              "object": false
+            }
+          },
+          {
+            "enforceForRenamedProperties": false
+          }
+        ]
+    },
+    "settings": {
+      'import/resolver': {
+        "node": {
+        "extensions": ['.js','.jsx']
+      }
+    },
+      "flowtype": {
+        "onlyFilesWithFlowAnnotation": true
+      }
+    }
+  }
+  

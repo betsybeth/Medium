@@ -1,9 +1,6 @@
-const Sequelize = require("sequelize")
-
-module.exports = sequelize => {
-  const comments = sequelize.define(
-    "comments",
-    {
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    queryInterface.createTable("comments", {
       id: {
         type: Sequelize.STRING,
         primaryKey: true,
@@ -43,8 +40,10 @@ module.exports = sequelize => {
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-    },
-    {},
-  )
-  return comments
+    })
+  },
+
+  down: queryInterface => {
+    queryInterface.dropTable("comments")
+  },
 }

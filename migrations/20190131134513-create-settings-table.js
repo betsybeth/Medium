@@ -1,22 +1,20 @@
-const Sequelize = require("sequelize")
-
-module.exports = sequelize => {
-  const comments = sequelize.define(
-    "comments",
-    {
+module.exports = {
+  up: (queryInterface, Sequelize) => {
+    queryInterface.createTable("settings", {
       id: {
         type: Sequelize.STRING,
         primaryKey: true,
         unique: true,
       },
-      comment: {
+      email: {
         type: Sequelize.STRING,
-        field: "comment",
+        unique: true,
+        field: "email",
         validate: {
-          notEmpty: { msg: "comment should not be empty" },
+          notEmpty: { msg: "email should not be empty" },
         },
       },
-      writtenBy: {
+      userId: {
         type: Sequelize.STRING,
         references: {
           model: "users",
@@ -26,6 +24,7 @@ module.exports = sequelize => {
         onDelete: "cascade",
       },
       createdAt: {
+        allowNull: false,
         field: "created_at",
         type: Sequelize.DATE,
       },
@@ -34,17 +33,10 @@ module.exports = sequelize => {
         field: "updated_at",
         type: Sequelize.DATE,
       },
-      blogId: {
-        type: Sequelize.STRING,
-        references: {
-          model: "blogs",
-          key: "id",
-        },
-        onUpdate: "cascade",
-        onDelete: "cascade",
-      },
-    },
-    {},
-  )
-  return comments
+    })
+  },
+
+  down: queryInterface => {
+    queryInterface.dropTable("settings")
+  },
 }
