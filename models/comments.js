@@ -46,5 +46,12 @@ module.exports = sequelize => {
     },
     {},
   )
+  // comments.associate = models => {
+  //   // association can be defined here
+  //   comments.belongsTo(models.blogs, {
+  //     foreignKey: "blogId",
+  //     onDelete: "CASCADE",
+  //   })
+  // }
   return comments
 }

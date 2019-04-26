@@ -27,7 +27,7 @@ module.exports = sequelize => {
       likes: {
         type: Sequelize.INTEGER,
         field: "claps",
-        autoIncrement: true,
+        defaultValue: 0,
       },
       userId: {
         type: Sequelize.STRING,
@@ -51,10 +51,10 @@ module.exports = sequelize => {
     },
     {},
   )
-  blogs.associate = function(models) {
+  blogs.associate = models => {
     // association can be defined here
     blogs.hasMany(models.comments, {
-      foreignKey: "comment_id",
+      foreignKey: "blogId",
       onDelete: "CASCADE",
     })
   }

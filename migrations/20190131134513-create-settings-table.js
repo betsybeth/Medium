@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface, Sequelize) =>
     queryInterface.createTable("settings", {
       id: {
         type: Sequelize.STRING,
@@ -33,9 +33,7 @@ module.exports = {
         field: "updated_at",
         type: Sequelize.DATE,
       },
-    })
-  },
-
+    }),
   down: queryInterface => {
     queryInterface.dropTable("settings")
   },

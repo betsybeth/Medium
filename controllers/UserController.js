@@ -30,7 +30,9 @@ class UserController {
         req.login(user, config.development.jwtSession, async error => {
           if (error) return res.send(error)
           const body = { id: user.id, email: user.email }
-          const token = jwt.sign({ user: body }, config.development.jwtSecret)
+          const token = jwt.sign({ user: body }, config.development.jwtSecret, {
+            expiresInMinutes: 60,
+          })
           return res.json({ token })
         })
       } catch (error) {
@@ -43,21 +45,26 @@ class UserController {
   static async getUser(req, res, next) {
     try {
       const user = await UserRepository.profileUser(req)
+      if (user.msg) {
+        return res.status(404).json(user.msg)
+      }
       return res.status(200).json(user)
     } catch (error) {
       return next(error)
     }
   }
 
-  static async settingsUser(req, res, next) {
+  static async updateUser(req, res, next) {
     try {
-      const user = await UserRepository.settings(req)
+      const user = await UserRepository.updateUser(req)
       if (user.msg) {
         return res.status(400).json(user)
       }
-      return res.status(204).send(user.message)
+      return res.status(200).send(user.message)
     } catch (error) {
-      return next(error)
+      const err = new Error("something wrong happened", error)
+      err.statusCode = 400
+      return next(err)
     }
   }
 }

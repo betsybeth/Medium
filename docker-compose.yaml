@@ -1,0 +1,41 @@
+version: "3.0"
+services:
+  database:
+    image: "postgres:alpine"
+    ports:
+        - "5432:5432"
+    environment:  
+      POSTGRES_USER: bethwambu
+      POSTGRES_DB: medium
+      POSTGRES_PASSWORD: beth      
+    volumes:
+        - /var/lib/postgresql/data
+    networks:
+      - webnet    
+  medium:
+      build:
+        context: .
+        dockerfile: Dockerfile
+      ports:
+        - "3000:3000"
+      depends_on:
+        - database
+      links:
+        - database
+      environment:
+         DATABASE_URL: postgres://bethwambu:beth@database:5432/medium         
+      networks:
+        - webnet   
+  migrations:
+    image: medium_medium:latest
+    command: ["./wait-for-it/wait-for-it.sh", "database:5432", "--", "sequelize", "db:migrate"]
+    links:
+      - database
+    depends_on:
+      - database
+    networks:
+      - webnet  
+
+networks:
+  webnet:
+    driver: bridge

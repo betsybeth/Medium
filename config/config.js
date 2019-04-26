@@ -3,7 +3,8 @@ module.exports = {
     username: "bethwambu",
     password: "beth",
     database: "medium",
-    host: "127.0.0.1",
+    host: "database",
+    port: 5432,
     dialect: "postgres",
     jwtSecret: "mediumApi",
     jwtSession: { session: false },
@@ -13,6 +14,7 @@ module.exports = {
     password: "beth",
     database: "medium_test",
     host: "127.0.0.1",
+    port: 5432,
     dialect: "postgres",
   },
   production: {
@@ -20,6 +22,7 @@ module.exports = {
     password: "beth",
     database: "medium",
     host: "127.0.0.1",
+    port: 5432,
     dialect: "postgres",
   },
 }

@@ -1,5 +1,5 @@
 module.exports = {
-  up: (queryInterface, Sequelize) => {
+  up: (queryInterface, Sequelize) =>
     queryInterface.createTable("comments", {
       id: {
         type: Sequelize.STRING,
@@ -40,9 +40,7 @@ module.exports = {
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-    })
-  },
-
+    }),
   down: queryInterface => {
     queryInterface.dropTable("comments")
   },
